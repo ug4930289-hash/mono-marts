@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | MoNo-Mart's.pk</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+  body{ font-family: 'Inter', sans-serif; background: #000; color: #fff; cursor: context-menu; }
+.glass{ background: rgba(0,0,0,0.4)!important; backdrop-filter: blur(14px)!important; }
+.btn-white{ background: #fff!important; color: #000!important; transition: 0.3s!important; }
+.btn-white:hover{ background: #e5e5e5!important; }
+.card{ background: #0a0a0a!important; border: 1px solid #222!important; transition: all 0.3s!important; }
+.card:hover{ border: 1px solid #fff!important; box-shadow: 0 0 10px 7px rgba(255,255,255,0.2)!important; transform: translateY(-5px)!important; }
+#mobileMenu{ position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 999; transition: right 0.3s ease; padding-top: 80px; }
+#mobileMenu.active{ right: 0; }
+#menuOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 998; }
+
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR - SAME AS OTHER PAGES -->
+
+<header class="glass border-b border-neutral-900 sticky top-0 z-50 relative">
+
+  <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+
+    <h1 class="text-2xl font-bold tracking-[0.3em]">MONO<span class="text-neutral-500">MART'S</span><span class="text-xs text-neutral-600">.pk</span></h1>
+    <nav class="hidden md:flex gap-10 text-sm tracking-wider absolute left-1/2 -translate-x-1/2">
+      <a href="index.html" class="hover:text-neutral-400">HOME</a>
+      <a href="shop.html" class="hover:text-neutral-400">SHOP</a>
+      <a href="our-story.html" class="hover:text-neutral-400">OUR-STORY</a>
+      <a href="track-order.html" class="hover:text-neutral-400">TRACK-ORDER</a>
+      <a href="contact.html" class="hover:text-white">CONTACT</a>
+    </nav>
+
+    <div class="flex items-center gap-4 ml-auto relative">
+      <button id="menuBtn" class="md:hidden text-2xl z-[1000]"><i class="fa-solid fa-bars"></i></button>
+    </div>
+
+  </div>
+
+</header>
+
+<div id="menuOverlay"></div>
+
+<div id="mobileMenu" class="md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+  <a href="index.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">HOME</a>
+  <a href="shop.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">SHOP</a>
+  <a href="our-story.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">OUR-STORY</a>
+  <a href="track-order.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">TRACK-ORDER</a>
+  <a href="contact.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">CONTACT</a>
+</div>
+
+<!-- HERO SECTION -->
+
+<section class="py-20 text-center relative">
+
+  <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+
+  <div class="container mx-auto px-6 relative">
+    <h2 class="text-5xl md:text-7xl font-bold tracking-widest mb-4">CONTACT US</h2>
+    <p class="text-neutral-400 text-lg tracking-wide">We'd Love To Hear From You</p>
+  </div>
+
+</section>
+
+<!-- CONTACT INFO + FORM -->
+
+<section class="py-20">
+
+  <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+
+    <!-- LEFT: CONTACT INFO -->
+
+    <div>
+      <h3 class="text-3xl font-bold tracking-widest mb-8 text-center md:text-left">GET IN TOUCH</h3>
+
+      <div class="space-y-6">
+
+        <div class="card p-6 flex items-start gap-4">
+
+          <i class="fa-solid fa-location-dot text-2xl mt-1"></i>
+          <div>
+            <h4 class="font-bold mb-1">ADDRESS</h4>
+            <p class="text-neutral-400 text-sm">123 Main Street, Gulshan-e-Iqbal<br>Karachi, Sindh, Pakistan</p>
+          </div>
+
+        </div>
+
+        <div class="card p-6 flex items-start gap-4">
+
+          <i class="fa-solid fa-phone text-2xl mt-1"></i>
+          <div>
+            <h4 class="font-bold mb-1">PHONE</h4>
+            <p class="text-neutral-400 text-sm">+92 316 2819626<br>Mon - Sat, 10AM - 8PM</p>
+          </div>
+
+        </div>
+
+        <div class="card p-6 flex items-start gap-4">
+
+          <i class="fa-solid fa-envelope text-2xl mt-1"></i>
+          <div>
+            <h4 class="font-bold mb-1">EMAIL</h4>
+            <p class="text-neutral-400 text-sm">support@mono-marts.pk<br>info@mono-marts.pk</p>
+          </div>
+
+        </div>
+
+        <div class="card p-6 flex items-start gap-4">
+
+          <i class="fa-brands fa-whatsapp text-2xl mt-1"></i>
+          <div>
+            <h4 class="font-bold mb-1">WHATSAPP</h4>
+            <a href="https://wa.me/923162819626" target="_blank" class="text-neutral-400 text-sm hover:text-white">Chat With Us Directly</a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT: CONTACT FORM -->
+
+    <div class="card p-8">
+
+      <h3 class="text-3xl font-bold tracking-widest mb-6">SEND MESSAGE</h3>
+      <div class="space-y-4">
+        <input id="contactName" type="text" placeholder="Your Name" class="w-full p-3 bg-[#111] border-neutral-800">
+        <input id="contactEmail" type="email" placeholder="Your Email" class="w-full p-3 bg-[#111] border-neutral-800">
+        <input id="contactPhone" type="number" placeholder="Phone Number" class="w-full p-3 bg-[#111] border border-neutral-800">
+        <input id="contactSubject" type="text" placeholder="Subject" class="w-full p-3 bg-[#111] border-neutral-800">
+
+        <textarea id="contactMessage" placeholder="Your Message" class="w-full p-3 bg-[#111] border-neutral-800 h-32"></textarea>
+        <button onclick="sendContact()" class="btn-white w-full py-4 text-lg font-bold">SEND MESSAGE</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- MAP SECTION -->
+
+<section class="py-10">
+
+  <div class="container mx-auto px-6">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3620.0000000000005!2d67.061000!3d24.860700!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDUxJzM4LjUiTiA2N8KwMDMnNDEuNiJF!5e0!3m2!1sen!2s!4v1234567890"
+      width="100%"
+      height="450"
+      style="border:1px solid #222;"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
+
+</section>
+
+<!-- FOOTER - SAME AS OTHER PAGES -->
+
+<footer class="border-t border-neutral-900 py-12">
+
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+
+    <div class="flex flex-col items-center md:items-start">
+      <h4 class="text-xl font-bold tracking-widest mb-4">MONO-MART'S<span class="text-neutral-500">.pk</span></h4>
+      <p class="text-neutral-500 text-sm">Curated for Your Everyday. Premium products, Fast delivery across Pakistan.</p>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+      <h4 class="font-bold tracking-widest mb-4">QUICK LINKS</h4>
+      <ul class="space-y-2 text-sm text-neutral-400">
+        <li><a href="index.html" class="hover:text-white">HOME</a></li>
+        <li><a href="shop.html" class="hover:text-white">SHOP</a></li>
+        <li><a href="our-story.html" class="hover:text-white">OUR-STORY</a></li>
+        <li><a href="track-order.html" class="hover:text-white">TRACK-ORDER</a></li>
+        <li><a href="contact.html" class="hover:text-white">CONTACT</a></li>
+      </ul>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+
+      <h4 class="font-bold tracking-widest mb-4">FOLLOW US</h4>
+      <div class="flex gap-4 text-xl justify-center">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://wa.me/923162819626"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
+    </div>
+
+  </div>
+  <p class="text-center text-neutral-600 text-xs mt-10 tracking-widest">© 2026 MONO-MART'S.PK. ALL RIGHTS RESERVED.</p>
+
+</footer>
+
+<script>
+
+// MOBILE MENU JS
+
+const menu = document.getElementById('mobileMenu');
+const overlay = document.getElementById('menuOverlay');
+document.getElementById('menuBtn').addEventListener('click', () => {
+  menu.classList.add('active');
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+})
+function closeMobileMenu(){
+  menu.classList.remove('active');
+  overlay.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+document.getElementById('closeMenu').addEventListener('click', closeMobileMenu);
+overlay.addEventListener('click', closeMobileMenu);
+
+// CONTACT FORM WHATSAPP
+function sendContact(){
+  let name = document.getElementById('contactName').value.trim();
+  let email = document.getElementById('contactEmail').value.trim();
+  let phone = document.getElementById('contactPhone').value.trim();
+  let subject = document.getElementById('contactSubject').value.trim();
+  let message = document.getElementById('contactMessage').value.trim();
+
+  if(!name ||!email ||!subject ||!message){
+    alert("Please fill all required fields *");
+    return;
+  }
+
+  let msg = `*NEW CONTACT MESSAGE*%0A%0A*Name:* ${name}%0A*Email:* ${email}%0A*Phone:* ${phone}%0A*Subject:* ${subject}%0A*Message:* ${message}`;
+  window.open(`https://wa.me/923162819626?text=${msg}`, '_blank');
+
+  alert("Message sent! We will contact you soon.");
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactSubject').value = '';
+  document.getElementById('contactMessage').value = '';
+}
+</script>
+
+</body>
+</html>

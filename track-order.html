@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Order | MoNo-Mart's.pk</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+  body{ font-family: 'Inter', sans-serif; background: #000; color: #fff; cursor: context-menu; }
+.glass{ background: rgba(0,0,0,0.4)!important; backdrop-filter: blur(14px)!important; }
+.overlay{ background: rgba(0,0,0,0.65)!important; }
+.btn-white{ background: #fff!important; color: #000!important; transition: 0.3s!important; }
+.btn-white:hover{ background: #e5e5e5!important; }
+.card{ background: #0a0a0a!important; border: 1px solid #222!important; transition: all 0.3s!important; }
+.card:hover{ border: 1px solid #fff!important; box-shadow: 0 0 10px 7px rgba(255,255,255,0.2)!important; transform: translateY(-5px)!important; }
+.no-select{ user-select: none; }
+  #mobileMenu{ position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 999; transition: right 0.3s ease; padding-top: 80px; }
+  #mobileMenu.active{ right: 0; }
+  #menuOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 998; }
+  #cartDropdown{ position: fixed; top: 0; right: -400px; width: 340px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 1001; transition: right 0.3s ease; display: flex; flex-direction: column; padding-top: 80px; }
+  #cartDropdown.active{ right: 0; }
+  #cartOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+.qty-btn{ width:24px; height:24px; border:1px solid #444; line-height: 22px; text-align: center; cursor: pointer; }
+
+  /* TRACKING TIMELINE */
+ .timeline-step{ display: flex; align-items: flex-start; gap: 16px; position: relative; padding-bottom: 40px; }
+ .timeline-step:last-child{ padding-bottom: 0; }
+ .timeline-step::before{
+    content: ''; position: absolute; left: 19px; top: 40px; bottom: 0; width: 2px; background: #222;
+  }
+ .timeline-step:last-child::before{ display: none; }
+ .timeline-step.done::before{ background: #fff; }
+ .step-icon{
+    width: 40px; height: 40px; border-radius: 50%; border: 2px solid #333;
+    display: flex; align-items: center; justify-content: center;
+    background: #0a0a0a; flex-shrink: 0; z-index: 1; font-size: 16px;
+  }
+ .timeline-step.done.step-icon{ border-color: #fff; background: #fff; color: #000; }
+ .timeline-step.active.step-icon{ border-color: #fff; background: #000; color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.4); }
+ .step-title{ font-weight: 700; font-size: 16px; }
+ .step-desc{ font-size: 13px; color: #888; margin-top: 4px; }
+ .timeline-step.done.step-title,.timeline-step.active.step-title{ color: #fff; }
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="glass border-b border-neutral-900 sticky top-0 z-50 relative">
+  <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+    <h1 class="text-2xl font-bold tracking-[0.3em]">MONO<span class="text-neutral-500">MART'S</span><span class="text-xs text-neutral-600">.pk</span></h1>
+    <nav class="hidden md:flex gap-10 text-sm tracking-wider absolute left-1/2 -translate-x-1/2">
+      <a href="index.html" class="hover:text-neutral-400">HOME</a>
+      <a href="shop.html" class="hover:text-neutral-400">SHOP</a>
+      <a href="our-story.html" class="hover:text-neutral-400">OUR-STORY</a>
+      <a href="track-order.html" class="hover:text-white">TRACK-ORDER</a>
+      <a href="contact.html" class="hover:text-neutral-400">CONTACT</a>
+    </nav>
+    <div class="flex items-center gap-4 ml-auto relative">
+      <a href="#" id="cartBtn" class="btn-white px-4 py-2 text-sm font-semibold flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span></a>
+      <button id="menuBtn" class="md:hidden text-2xl z-[1000]"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<div id="menuOverlay"></div>
+<div id="mobileMenu" class="md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+  <a href="index.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">HOME</a>
+  <a href="shop.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">SHOP</a>
+  <a href="about.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">OUR-STORY</a>
+  <a href="track.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">TRACK-ORDER</a>
+  <a href="contact.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">CONTACT</a>
+</div>
+
+<div id="cartOverlay"></div>
+<div id="cartDropdown" class="text-sm">
+  <button id="closeCart" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+  <div class="p-4 border-b border-neutral-800 font-bold tracking-widest">YOUR CART</div>
+  <div id="cartItems" class="p-4 text-neutral-400 flex-1 overflow-y-auto">Cart is empty</div>
+  <div id="cartTotal" class="p-4 border-t border-neutral-800 font-bold hidden"></div>
+  <a href="shop.html" class="btn-white w-full block text-center py-4 font-bold tracking-widest">CHECKOUT</a>
+</div>
+
+<!-- BANNER -->
+<section class="py-16 text-center border-b border-neutral-900">
+  <h2 class="text-5xl font-bold tracking-widest">TRACK ORDER</h2>
+  <p class="text-neutral-400 mt-3">Enter your Order ID to see live status</p>
+</section>
+
+<!-- TRACK INPUT -->
+<section class="py-16 container mx-auto px-6 max-w-3xl">
+  <div class="card p-8">
+    <label class="block text-sm tracking-widest text-neutral-400 mb-3">ORDER ID</label>
+    <div class="flex flex-col md:flex-row gap-3">
+      <input id="trackInput" type="text" placeholder="e.g. MONO-AB12CD34" class="flex-1 p-4 bg-[#111] border border-neutral-800 tracking-widest text-center md:text-left">
+      <button onclick="trackOrder()" class="btn-white px-10 py-4 font-bold tracking-widest">TRACK</button>
+    </div>
+    <p class="text-neutral-600 text-xs mt-4 text-center md:text-left">Apna Order ID shop page pe order karne ke baad milega (MONO-XXXXXXXX format).</p>
+  </div>
+
+  <p id="errorMsg" class="text-center text-red-500 mt-6 hidden"></p>
+
+  <!-- RESULT -->
+  <div id="trackResult" class="mt-10 hidden">
+
+    <!-- ORDER INFO CARD -->
+    <div class="card p-6 mb-6">
+      <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+        <div>
+          <p class="text-xs text-neutral-500 tracking-widest">ORDER ID</p>
+          <p id="rOrderID" class="text-xl font-bold"></p>
+        </div>
+        <div class="md:text-right">
+          <p class="text-xs text-neutral-500 tracking-widest">ORDER DATE</p>
+          <p id="rDate" class="text-sm"></p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-6 pt-6 border-t border-neutral-900">
+        <div>
+          <p class="text-xs text-neutral-500 tracking-widest">CUSTOMER</p>
+          <p id="rName" class="text-sm font-semibold"></p>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 tracking-widest">PHONE</p>
+          <p id="rPhone" class="text-sm font-semibold"></p>
+        </div>
+        <div>
+          <p class="text-xs text-neutral-500 tracking-widest">CITY</p>
+          <p id="rCity" class="text-sm font-semibold"></p>
+        </div>
+      </div>
+      <div class="mt-4">
+        <p class="text-xs text-neutral-500 tracking-widest">ADDRESS</p>
+        <p id="rAddress" class="text-sm"></p>
+      </div>
+      <div class="mt-4">
+        <p class="text-xs text-neutral-500 tracking-widest">PAYMENT</p>
+        <p id="rPayment" class="text-sm"></p>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="card p-8 mb-6">
+      <h3 class="text-xl font-bold tracking-widest mb-8">ORDER STATUS</h3>
+
+      <div id="timeline">
+        <!-- Step 1: In Packing -->
+        <div class="timeline-step" data-step="In Packing">
+          <div class="step-icon">📦</div>
+          <div>
+            <p class="step-title">In Packing</p>
+            <p class="step-desc">Your order is being packed at our warehouse.</p>
+          </div>
+        </div>
+        <!-- Step 2: Shipped -->
+        <div class="timeline-step" data-step="Shipped">
+          <div class="step-icon">🚚</div>
+          <div>
+            <p class="step-title">Shipped</p>
+            <p class="step-desc">Your parcel has been handed over to courier.</p>
+          </div>
+        </div>
+        <!-- Step 3: Delivered -->
+        <div class="timeline-step" data-step="Delivered">
+          <div class="step-icon">✅</div>
+          <div>
+            <p class="step-title">Delivered</p>
+            <p class="step-desc">Parcel delivered successfully. Thank you!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITEMS CARD -->
+    <div class="card p-6">
+      <h3 class="text-xl font-bold tracking-widest mb-4">ORDER ITEMS</h3>
+      <div id="rItems" class="space-y-3"></div>
+      <div class="mt-6 pt-6 border-t border-neutral-900 flex justify-between items-center">
+        <span class="font-bold tracking-widest">TOTAL</span>
+        <span id="rTotal" class="text-xl font-bold"></span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-neutral-900 py-12 mt-16">
+
+<div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+
+    <div class="flex flex-col items-center md:items-start">
+        <h4 class="text-xl font-bold tracking-widest mb-4">MONO-MART'S<span class="text-neutral-500">.pk</span></h4>
+        <p class="text-neutral-500 text-sm">Curated for Your Everyday. Premium products, Fast delivery across Pakistan.</p>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+        <h4 class="font-bold tracking-widest mb-4">QUICK LINKS</h4>
+
+        <ul class="space-y-2 text-sm text-neutral-400">
+            <li><a href="index.html" class="hover:text-white">HOME</a></li>
+            <li><a href="shop.html" class="hover:text-white">SHOP</a></li>
+            <li><a href="our-story.html" class="hover:text-white">OUR-STORY</a></li>
+            <li><a href="track-order.html" class="hover:text-white">TRACK-ORDER</a></li>
+            <li><a href="contact.html" class="hover:text-white">CONTACT</a></li>
+        </ul>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+        <h4 class="font-bold tracking-widest mb-4">FOLLOW US</h4>
+
+        <div class="flex gap-4 text-xl justify-center">
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://wa.me/923162819626"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+    </div>
+
+</div>
+
+  <p class="text-center text-neutral-600 text-xs mt-10 tracking-widest">© 2026 MONO-MART'S.PK. ALL RIGHTS RESERVED.</p>
+
+</footer>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  // CART SYSTEM - SAME AS HOME/SHOP
+  let cart = JSON.parse(localStorage.getItem('monoCart')) || [];
+  function updateCartCount(){ let total = cart.reduce((sum, item) => sum + item.qty, 0); document.getElementById('cartCount').innerText = total; }
+  function renderCart(){ let cartBox = document.getElementById('cartItems'); let totalBox = document.getElementById('cartTotal'); if(cart.length === 0){ cartBox.innerHTML = 'Cart is empty'; totalBox.classList.add('hidden'); return; } let html = ''; let total = 0; cart.forEach(item => { let itemTotal = item.price * item.qty; total += itemTotal; html += `<div class="flex justify-between items-center mb-3"><div class="w-1/2">${item.title}</div><div class="flex items-center gap-2"><span onclick="updateQty(event, ${item.id}, -1)" class="qty-btn">-</span><span>${item.qty}</span><span onclick="updateQty(event, ${item.id}, 1)" class="qty-btn">+</span></div><div>PKR ${itemTotal}</div></div>`; }); cartBox.innerHTML = html; totalBox.innerHTML = `TOTAL: PKR ${total}`; totalBox.classList.remove('hidden'); }
+  window.updateQty = function(event, id, change){ event.stopPropagation(); let item = cart.find(i => i.id == id); if(item){ item.qty += change; if(item.qty <= 0){ cart = cart.filter(i => i.id!= id); } localStorage.setItem('monoCart', JSON.stringify(cart)); updateCartCount(); renderCart(); } }
+  const cartDropdown = document.getElementById('cartDropdown');
+  const cartOverlay = document.getElementById('cartOverlay');
+  function openCart(){ cartDropdown.classList.add('active'); cartOverlay.style.display = 'block'; document.body.style.overflow = 'hidden'; renderCart(); }
+  function closeCartDrawer(){ cartDropdown.classList.remove('active'); cartOverlay.style.display = 'none'; document.body.style.overflow = 'auto'; }
+  document.getElementById('cartBtn').addEventListener('click', (e) => { e.preventDefault(); openCart(); })
+  document.getElementById('closeCart').addEventListener('click', closeCartDrawer);
+  cartOverlay.addEventListener('click', closeCartDrawer);
+  updateCartCount();
+
+  // ✅ MOBILE MENU
+  const menu = document.getElementById('mobileMenu');
+  const overlay = document.getElementById('menuOverlay');
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    menu.classList.add('active');
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  });
+  function closeMobileMenu(){
+    menu.classList.remove('active');
+    overlay.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+  document.getElementById('closeMenu').addEventListener('click', closeMobileMenu);
+  overlay.addEventListener('click', closeMobileMenu);
+
+  // ✅ ENTER KEY se bhi track ho
+  document.getElementById('trackInput').addEventListener('keypress', (e) => {
+    if(e.key === 'Enter') trackOrder();
+  });
+
+  // ✅ TRACK ORDER FUNCTION
+  window.trackOrder = function(){
+    let id = document.getElementById('trackInput').value.trim().toUpperCase();
+    let errorMsg = document.getElementById('errorMsg');
+    let result = document.getElementById('trackResult');
+
+    errorMsg.classList.add('hidden');
+    result.classList.add('hidden');
+
+    if(!id){
+      errorMsg.innerText = "Please enter your Order ID.";
+      errorMsg.classList.remove('hidden');
+      return;
+    }
+
+    let orders = JSON.parse(localStorage.getItem('monoOrders')) || [];
+    let order = orders.find(o => o.id === id);
+
+    if(!order){
+      errorMsg.innerText = "❌ Order not found. Please check your Order ID and try again.";
+      errorMsg.classList.remove('hidden');
+      return;
+    }
+
+    // Fill info
+    document.getElementById('rOrderID').innerText = order.id;
+    document.getElementById('rDate').innerText = order.date;
+    document.getElementById('rName').innerText = order.customer.name;
+    document.getElementById('rPhone').innerText = order.customer.phone;
+    document.getElementById('rCity').innerText = order.customer.city;
+    document.getElementById('rAddress').innerText = order.customer.address;
+    document.getElementById('rPayment').innerText = order.payment;
+
+    // Items
+    let itemsHTML = '';
+    order.items.forEach(i => {
+      itemsHTML += `<div class="flex justify-between text-sm">
+        <span>${i.title} x${i.qty}</span>
+        <span>PKR ${i.price * i.qty}</span>
+      </div>`;
+    });
+    document.getElementById('rItems').innerHTML = itemsHTML;
+    document.getElementById('rTotal').innerText = "PKR " + order.total;
+
+    // Timeline
+    let steps = ['In Packing', 'Shipped', 'Delivered'];
+    let currentIndex = steps.indexOf(order.status);
+    if(currentIndex === -1) currentIndex = 0; // fallback
+
+    document.querySelectorAll('.timeline-step').forEach((el, idx) => {
+      el.classList.remove('done', 'active');
+      if(idx < currentIndex){
+        el.classList.add('done');
+      } else if(idx === currentIndex){
+        el.classList.add('active');
+      }
+    });
+
+    // Show
+    result.classList.remove('hidden');
+
+    // Scroll to result
+    result.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+
+  // ✅ AUTO TRACK (agar URL mein?id=MONO-XXXX ho)
+  let urlParams = new URLSearchParams(window.location.search);
+  let autoId = urlParams.get('id');
+  if(autoId){
+    document.getElementById('trackInput').value = autoId;
+    trackOrder();
+  }
+
+});
+
+</script>
+</body>
+</html>

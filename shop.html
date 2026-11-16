@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop | MoNo-Mart's.pk</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        body{ font-family: 'Inter', sans-serif; background: #000; color: #fff; cursor: context-menu; }
+     .glass{ background: rgba(0,0,0,0.4)!important; backdrop-filter: blur(14px)!important; }
+     .overlay{ background: rgba(0,0,0,0.65)!important; }
+     .btn-white{ background: #fff!important; color: #000!important; transition: 0.3s!important; }
+     .btn-white:hover{ background: #e5e5e5!important; }
+     .card{ background: #0a0a0a!important; border: 1px solid #222!important; transition: all 0.3s!important; }
+     .card:hover{ border: 1px solid #fff!important; box-shadow: 0 0 10px 7px rgba(255,255,255,0.2)!important; transform: translateY(-5px)!important; }
+     .popup{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.92); z-index: 100; overflow-y: auto;}
+     .no-select{ user-select: none; }
+        #mobileMenu{ position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 999; transition: right 0.3s ease; padding-top: 80px; }
+        #mobileMenu.active{ right: 0; }
+        #menuOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 998; }
+        #cartDropdown{ position: fixed; top: 0; right: -400px; width: 340px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 1001; transition: right 0.3s ease; display: flex; flex-direction: column; padding-top: 80px; }
+        #cartDropdown.active{ right: 0; }
+        #cartOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+     .qty-btn{ width:24px; height:24px; border:1px solid #444; line-height: 22px; text-align: center; cursor: pointer; }
+        #orderConfirm{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.95); z-index: 200; }
+
+    </style>
+
+</head>
+<body>
+
+<header class="glass border-b border-neutral-900 sticky top-0 z-50 relative">
+
+  <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+
+    <h1 class="text-2xl font-bold tracking-[0.3em]">MONO<span class="text-neutral-500">MART'S</span><span class="text-xs text-neutral-600">.pk</span></h1>
+    <nav class="hidden md:flex gap-10 text-sm tracking-wider absolute left-1/2 -translate-x-1/2">
+      <a href="index.html" class="hover:text-neutral-400">HOME</a>
+      <a href="shop.html" class="hover:text-white">SHOP</a>
+      <a href="our-story.html" class="hover:text-neutral-400">OUR-STORY</a>
+      <a href="track-order.html" class="hover:text-neutral-400">TRACK-ORDER</a>
+      <a href="contact.html" class="hover:text-neutral-400">CONTACT</a>
+    </nav>
+
+    <div class="flex items-center gap-4 ml-auto relative">
+      <a href="#" id="cartBtn" class="btn-white px-4 py-2 text-sm font-semibold flex items-center gap-2"><i class="fa-solid fa-cart-shopping"></i> <span id="cartCount">0</span></a>
+      <button id="menuBtn" class="md:hidden text-2xl z-[1000]"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    
+  </div>
+  
+</header>
+
+<div id="menuOverlay"></div>
+
+<div id="mobileMenu" class="md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+  <a href="index.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">HOME</a>
+  <a href="shop.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">SHOP</a>
+  <a href="our-story.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">OUR-STORY</a>
+  <a href="track-order.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">TRACK-ORDER</a>
+  <a href="contact.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">CONTACT</a>
+</div>
+
+<div id="cartOverlay"></div>
+
+<div id="cartDropdown" class="text-sm">
+
+  <button id="closeCart" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+
+  <div class="p-4 border-b border-neutral-800 font-bold tracking-widest">YOUR CART</div>
+  <div id="cartItems" class="p-4 text-neutral-400 flex-1 overflow-y-auto">Cart is empty</div>
+  <div id="cartTotal" class="p-4 border-t border-neutral-800 font-bold hidden"></div>
+
+  <button id="checkoutBtn" class="btn-white w-full block text-center py-4 font-bold tracking-widest">CHECKOUT</button>
+  
+</div>
+
+<section class="py-8 border-b border-neutral-900">
+
+  <div class="container mx-auto px-6">
+    <input id="searchInput" type="text" placeholder="Search products..." class="w-full p-4 bg-[#111] border-neutral-800 text-center tracking-widest">
+    <p id="noResult" class="text-center text-neutral-500 mt-4 hidden">No products found 😔</p>
+  </div>
+
+</section>
+
+<section class="py-10 text-center">
+  <h2 class="text-5xl font-bold tracking-widest">SHOP ALL</h2>
+  <p class="text-neutral-400 mt-3">Curated for Your Everyday</p>
+</section>
+
+<section class="pb-20 container mx-auto px-6">
+  <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+</section>
+
+<section id="orderForm" class="py-20 bg-[#050505] border-y border-neutral-900 hidden">
+
+  <div class="container mx-auto px-6 max-w-3xl">
+
+    <h3 class="text-3xl font-bold text-center mb-8 tracking-widest">COMPLETE YOUR ORDER</h3>
+    <div id="orderSummary" class="card p-4 mb-6"></div>
+
+    <form action="#">
+      <div class="space-y-4">
+        <input id="cName" type="text" placeholder="Full Name " class="w-full p-3 bg-[#111] border border-neutral-800">
+        <input id="cEmail" type="email" placeholder="Email " class="w-full p-3 bg-[#111] border-neutral-800">
+        <input id="cPhone" type="number" placeholder="Phone Number " class="w-full p-3 bg-[#111] border border-neutral-800">
+        <input id="cCity" type="City" placeholder="City " class="w-full p-3 bg-[#111] border border-neutral-800">
+        <textarea id="cAddress" placeholder="Area - Block - House Address " class="w-full p-3 bg-[#111] border border-neutral-800 h-24"></textarea>
+      </div>
+    </form>
+
+    <div class="mt-6">
+
+      <p class="mb-3 font-bold">PAYMENT METHOD *</p>
+      <label class="flex items-center gap-2 mb-2"><input type="radio" name="payment" value="COD" onchange="toggleOnline()"> COD - Cash on Delivery</label>
+      <label class="flex items-center gap-2"><input type="radio" name="payment" value="ONLINE" onchange="toggleOnline()"> ONLINE PAYMENT</label>
+      
+      <div id="onlineOptions" class="ml-6 mt-2 hidden">
+        <label class="flex items-center gap-2 mb-2"><input type="radio" name="online" value="Easypaisa"> Easypaisa</label>
+        <label class="flex items-center gap-2"><input type="radio" name="online" value="JazzCash"> JazzCash</label>
+      </div>
+
+    </div>
+
+    <button onclick="placeOrder()" class="btn-white w-full py-4 text-lg font-bold mt-8">PLACE ORDER ON WHATSAPP</button>
+  </div>
+
+</section>
+
+<div id="productPopup" class="popup items-center justify-center p-4 no-select">
+
+  <div class="bg-[#111] border border-neutral-800 w-full max-w-4xl p-8">
+
+    <button onclick="closePopup()" class="float-right text-3xl">&times;</button>
+    <div class="grid md:grid-cols-2 gap-8 mt-10">
+
+      <img id="popupImg" src="" class="w-full h-[400px] object-cover">
+      <div>
+        <h3 id="popupTitle" class="text-3xl font-bold mb-2"></h3>
+        <p id="popupPrice" class="text-2xl text-neutral-400 mb-4"></p>
+        <p id="popupDesc" class="text-neutral-500 mb-6"></p>
+        <button id="popupAddBtn" class="btn-white w-full py-4 text-lg font-bold">🛒 ADD TO CART</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div id="orderConfirm" class="items-center justify-center">
+
+  <div class="card p-10 max-w-md text-center">
+    <h3 class="text-3xl font-bold mb-4">Order Placed! 🎉</h3>
+    <p class="mb-2">Your Order ID:</p>
+    <p id="orderID" class="text-2xl font-bold text-neutral-300 mb-4"></p>
+      <button onclick="copyID()" class="btn-white px-6 py-2 mb-3">Copy ID</button><br>
+    <a href="track-order.html" class="btn-white px-6 py-2">Track Order</a><br>
+      <button onclick="closeConfirm()" class="text-neutral-500 mt-4">Close</button>
+  </div>
+
+</div>
+
+<footer class="border-t border-neutral-900 py-12">
+
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+
+    <div class="flex flex-col items-center md:items-start">
+      <h4 class="text-xl font-bold tracking-widest mb-4">MONO-MART'S<span class="text-neutral-500">.pk</span></h4><p class="text-neutral-500 text-sm">Curated for Your Everyday. Premium products, Fast delivery across Pakistan.</p>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+      <h4 class="font-bold tracking-widest mb-4">QUICK LINKS</h4>
+      <ul class="space-y-2 text-sm text-neutral-400">
+        <li><a href="index.html" class="hover:text-white">HOME</a></li>
+        <li><a href="shop.html" class="hover:text-white">SHOP</a></li>
+        <li><a href="our-story.html" class="hover:text-white">OUR-STORY</a></li>
+        <li><a href="track-order.html" class="hover:text-white">TRACK-ORDER</a></li>
+        <li><a href="contact.html" class="hover:text-white">CONTACT</a></li></ul>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+
+      <h4 class="font-bold tracking-widest mb-4">FOLLOW US</h4>
+      <div class="flex gap-4 text-xl justify-center">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://wa.me/923162819626"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
+    </div>
+
+  </div> 
+  <p class="text-center text-neutral-600 text-xs mt-10 tracking-widest">© 2026 MONO-MART'S.PK. ALL RIGHTS RESERVED.</p>
+
+</footer>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+const WHATSAPP_NUMBER = '923162819626';
+let cart = JSON.parse(localStorage.getItem('monoCart')) || [];
+let orders = JSON.parse(localStorage.getItem('monoOrders')) || [];
+let currentProductId = null;
+let hasAutoOpened = false;
+
+const products = {1:{title:"Men Oversized Tee", priceNum:2999, desc:"Premium cotton, relaxed fit", img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500", cat:"men"},2:{title:"Men Cargo Pants", priceNum:3499, desc:"6 Pockets, Comfort fit", img:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=500", cat:"men"},3:{title:"Men Hoodie", priceNum:3999, desc:"Fleece, Winter wear", img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=500", cat:"men"},4:{title:"Men Denim Jacket", priceNum:5499, desc:"Classic blue denim", img:"https://images.unsplash.com/photo-1551537482-f2075a1d41f2?q=80&w=500", cat:"men"},5:{title:"Men Formal Shirt", priceNum:2799, desc:"Slim fit, Office wear", img:"https://images.unsplash.com/photo-1598032895397-b9472c1c1e8f?q=80&w=500", cat:"men"},6:{title:"Men Track Suit", priceNum:4599, desc:"Sports & Gym wear", img:"https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=500", cat:"men"},7:{title:"Men Kurta", priceNum:3299, desc:"Eid Collection", img:"https://images.unsplash.com/photo-1618354691323-cd9c39760f65?q=80&w=500", cat:"men"},8:{title:"Men Sneakers", priceNum:4999, desc:"Comfort sole", img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500", cat:"men"},9:{title:"Women Summer Dress", priceNum:4299, desc:"Flowy, Breathable", img:"https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=500", cat:"women"},10:{title:"Women Abaya", priceNum:5999, desc:"Elegant Black", img:"https://images.unsplash.com/photo-1583391733956-6c78276477e2?q=80&w=500", cat:"women"},11:{title:"Women Kurti", priceNum:2499, desc:"Daily wear cotton", img:"https://images.unsplash.com/photo-1585489090709-1c67a9f9e7a0?q=80&w=500", cat:"women"},12:{title:"Women Jeans", priceNum:3299, desc:"High waist", img:"https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=500", cat:"women"},13:{title:"Women Handbag", priceNum:3999, desc:"Leather, Spacious", img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=500", cat:"women"},14:{title:"Women Heels", priceNum:3599, desc:"Party wear", img:"https://images.unsplash.com/photo-1543163521-1bf539c55dd2?q=80&w=500", cat:"women"},15:{title:"Women Scarf", priceNum:999, desc:"Soft chiffon", img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=500", cat:"women"},16:{title:"Women Jacket", priceNum:4799, desc:"Winter coat", img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=500", cat:"women"},17:{title:"Kids Hoodie", priceNum:1899, desc:"Soft Fleece", img:"https://images.unsplash.com/photo-1620799139507-2a76f1a254d2?q=80&w=500", cat:"kids"},18:{title:"Kids T-Shirt", priceNum:1299, desc:"Cartoon print", img:"https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?q=80&w=500", cat:"kids"},19:{title:"Kids Jeans", priceNum:1599, desc:"Comfortable", img:"https://images.unsplash.com/photo-1522771930-78848d9293e8?q=80&w=500", cat:"kids"},20:{title:"Kids Frock", priceNum:2299, desc:"Party wear", img:"https://images.unsplash.com/photo-1519238263530-99bdd11e2fae?q=80&w=500", cat:"kids"},21:{title:"Kids Sneakers", priceNum:1999, desc:"Lightweight", img:"https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=500", cat:"kids"},22:{title:"Kids Jacket", priceNum:2499, desc:"Winter warm", img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=500", cat:"kids"},23:{title:"Kids Backpack", priceNum:1499, desc:"School bag", img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=500", cat:"kids"},24:{title:"Wireless Earbuds Pro", priceNum:8499, desc:"ANC, 30H Battery", img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=500", cat:"tech"},25:{title:"Smart Home Camera", priceNum:6999, desc:"1080p, Night Vision", img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=500", cat:"tech"},26:{title:"Smart Watch", priceNum:11999, desc:"Health tracking", img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=500", cat:"tech"},27:{title:"Bluetooth Speaker", priceNum:4999, desc:"Bass, 12H play", img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=500", cat:"tech"},28:{title:"Power Bank", priceNum:3999, desc:"20000mAh", img:"https://images.unsplash.com/photo-1609096705382-1d1c7b1e3d9e?q=80&w=500", cat:"tech"},29:{title:"Gaming Mouse", priceNum:3499, desc:"RGB, 16000 DPI", img:"https://images.unsplash.com/photo-1615663245857-ac778bbacf27?q=80&w=500", cat:"tech"},30:{title:"Air Fryer", priceNum:15999, desc:"Oil free cooking", img:"https://images.unsplash.com/photo-1585515320310-3f8a5d4c1b0e?q=80&w=500", cat:"home"},31:{title:"Blender", priceNum:8999, desc:"1200W Motor", img:"https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?q=80&w=500", cat:"home"},32:{title:"Coffee Maker", priceNum:12999, desc:"5 Cup", img:"https://images.unsplash.com/photo-1510707304942-d045af9bae2e?q=80&w=500", cat:"home"},33:{title:"Electric Kettle", priceNum:2999, desc:"1.8L, Auto off", img:"https://images.unsplash.com/photo-1571934811356-5cc061b6821f?q=80&w=500", cat:"home"},34:{title:"Vacuum Cleaner", priceNum:18999, desc:"Strong suction", img:"https://images.unsplash.com/photo-1558317374-067fb5f30001?q=80&w=500", cat:"home"}};
+
+function loadProducts(filter=""){let grid = document.getElementById('productsGrid');let noResult = document.getElementById('noResult');if(!grid) return;grid.innerHTML = ''; let count=0;Object.keys(products).forEach(id=>{let p = products[id];if(p.title.toLowerCase().includes(filter.toLowerCase()) || p.desc.toLowerCase().includes(filter.toLowerCase())){count++;grid.innerHTML += `<div data-id="${id}" class="product-card card p-4 cursor-pointer"><img src="${p.img}" class="mb-3 w-full h-48 object-cover"><h4 class="font-semibold text-sm">${p.title}</h4><p class="text-neutral-500 text-xs mb-2">${p.desc}</p><p class="font-bold mb-3">PKR ${p.priceNum}</p><button onclick="addToCart(${id}, event)" class="btn-white w-full py-2 text-xs font-semibold">🛒 ADD TO CART</button></div>`;}});if(noResult) noResult.classList.toggle('hidden', count>0);}
+let searchInput = document.getElementById('searchInput');if(searchInput) searchInput.addEventListener('input', e=> loadProducts(e.target.value));
+document.addEventListener('click', e=>{if(e.target.closest('.product-card') && e.target.tagName!=='BUTTON'){openPopup(e.target.closest('.product-card').dataset.id)}})
+window.openPopup = function(id){ currentProductId=id; let p=products[id]; document.getElementById('productPopup').style.display='flex'; document.body.style.overflow='hidden';document.getElementById('popupImg').src=p.img; document.getElementById('popupTitle').innerText=p.title; document.getElementById('popupPrice').innerText='PKR '+p.priceNum; document.getElementById('popupDesc').innerText=p.desc;document.getElementById('popupAddBtn').onclick=()=>addToCart(id);}
+window.closePopup = function(){ document.getElementById('productPopup').style.display='none'; document.body.style.overflow='auto'; }
+const cartDropdown = document.getElementById('cartDropdown');
+const cartOverlay = document.getElementById('cartOverlay');
+function openCart(){ cartDropdown.classList.add('active'); cartOverlay.style.display = 'block'; document.body.style.overflow = 'hidden'; renderCart(); }
+function closeCartDrawer(){ cartDropdown.classList.remove('active'); cartOverlay.style.display = 'none'; document.body.style.overflow = 'auto'; }
+document.getElementById('cartBtn').addEventListener('click', (e) => { e.preventDefault(); openCart(); })
+document.getElementById('closeCart').addEventListener('click', closeCartDrawer);
+cartOverlay.addEventListener('click', closeCartDrawer);
+function renderCart(){ let cartBox = document.getElementById('cartItems'); let totalBox = document.getElementById('cartTotal'); if(cart.length === 0){ cartBox.innerHTML = 'Cart is empty'; totalBox.classList.add('hidden'); return; } let html = ''; let total = 0; cart.forEach(item => { let itemTotal = item.price * item.qty; total += itemTotal; html += `<div class="flex justify-between items-center mb-3"><div class="w-1/2">${item.title}</div><div class="flex items-center gap-2"><span onclick="updateQty(event, ${item.id}, -1)" class="qty-btn">-</span><span>${item.qty}</span><span onclick="updateQty(event, ${item.id}, 1)" class="qty-btn">+</span></div><div>PKR ${itemTotal}</div></div>`; }); cartBox.innerHTML = html; totalBox.innerHTML = `TOTAL: PKR ${total}`; totalBox.classList.remove('hidden'); }
+window.updateQty = function(event, id, change){ event.stopPropagation(); let item = cart.find(i => i.id == id); if(item){ item.qty += change; if(item.qty <= 0){ cart = cart.filter(i => i.id!= id); } localStorage.setItem('monoCart', JSON.stringify(cart)); updateCartCount(); renderCart(); } }
+window.addToCart = function(id, event){ if(event) event.stopPropagation(); closePopup(); let p = products[id]; let existing = cart.find(item => item.id == id); if(existing){ existing.qty++ } else { cart.push({id: parseInt(id), title: p.title, price: p.priceNum, qty: 1}) } localStorage.setItem('monoCart', JSON.stringify(cart)); updateCartCount(); renderCart(); if(!hasAutoOpened){ hasAutoOpened=true; setTimeout(()=>{ openCart(); }, 200); } }
+function updateCartCount(){ let total = cart.reduce((sum, item) => sum + item.qty, 0); document.getElementById('cartCount').innerText = total; }
+const menu = document.getElementById('mobileMenu'); const overlay = document.getElementById('menuOverlay');document.getElementById('menuBtn').addEventListener('click', () => { menu.classList.add('active'); overlay.style.display = 'block'; document.body.style.overflow = 'hidden'; })
+function closeMobileMenu(){ menu.classList.remove('active'); overlay.style.display = 'none'; document.body.style.overflow = 'auto'; }document.getElementById('closeMenu').addEventListener('click', closeMobileMenu); overlay.addEventListener('click', closeMobileMenu);
+document.getElementById('checkoutBtn').addEventListener('click', () => {if(cart.length === 0){ alert("Cart is empty"); return; }document.getElementById('orderForm').classList.remove('hidden');document.getElementById('orderForm').scrollIntoView({behavior: 'smooth'});let summary = '<h4 class="font-bold mb-2">YOUR ORDER:</h4>'; let total = 0;cart.forEach(item => { total += item.price * item.qty; summary += `<p>${item.title} x${item.qty} = PKR ${item.price * item.qty}</p>` }); summary += `<p class="font-bold mt-2">TOTAL: PKR ${total}</p>`; document.getElementById('orderSummary').innerHTML = summary; closeCartDrawer();})
+window.toggleOnline = function(){ let val = document.querySelector('input[name="payment"]:checked')?.value; document.getElementById('onlineOptions').classList.toggle('hidden', val!== 'ONLINE'); }
+window.placeOrder = function(){
+  let name = document.getElementById('cName').value.trim();
+  let email = document.getElementById('cEmail').value.trim();
+  let phone = document.getElementById('cPhone').value.trim();
+  let city = document.getElementById('cCity').value.trim();
+  let address = document.getElementById('cAddress').value.trim();
+  let payment = document.querySelector('input[name="payment"]:checked');
+  let online = document.querySelector('input[name="online"]:checked');
+  if(!name ||!phone ||!city ||!address ||!payment){ alert("Please fill all required fields"); return; }
+  if(payment.value === 'ONLINE' &&!online){ alert("Please select Easypaisa or JazzCash"); return; }
+  let orderID = 'MONO-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+  let newOrder = {id: orderID, status: "In Packing", customer: {name, email, phone, city, address}, payment: payment.value + (online? ' - ' + online.value : ''), items: cart, total: cart.reduce((s,i)=>s+i.price*i.qty,0), date: new Date().toLocaleString()};
+  orders.push(newOrder); localStorage.setItem('monoOrders', JSON.stringify(orders));
+  let msg = "NEW ORDER #" + orderID + "\n\n";
+  msg += "CUSTOMER:\n";
+  msg += "Name: " + name + "\n";
+  msg += "Phone: " + phone + "\n";
+  msg += "Email: " + email + "\n";
+  msg += "City: " + city + "\n";
+  msg += "Address: " + address + "\n\n";
+  msg += "PAYMENT: " + newOrder.payment + "\n\n";
+  msg += "ITEMS:\n";
+  cart.forEach(i => { msg += i.title + " x" + i.qty + " = PKR " + (i.price*i.qty) + "\n"; });
+  msg += "\nTOTAL: PKR " + newOrder.total;
+  window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg), '_blank');
+  document.getElementById('orderID').innerText = orderID;
+  document.getElementById('orderConfirm').style.display = 'flex';
+  document.getElementById('orderForm').classList.add('hidden');
+  setTimeout(() => {
+    alert("Your order has been placed successfully!\n\nTo track your order, please copy this Order ID: " + orderID + "\n\nand enter it on the Track Order page.");
+  }, 400);
+  cart = []; localStorage.setItem('monoCart', JSON.stringify(cart)); updateCartCount();
+}
+window.copyID = function(){ navigator.clipboard.writeText(document.getElementById('orderID').innerText); alert("Order ID Copied: " + document.getElementById('orderID').innerText); }
+window.closeConfirm = function(){ document.getElementById('orderConfirm').style.display = 'none'; }
+loadProducts();updateCartCount();});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story | MoNo-Mart's.pk</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+  body{ font-family: 'Inter', sans-serif; background: #000; color: #fff; cursor: context-menu; }
+.glass{ background: rgba(0,0,0,0.4)!important; backdrop-filter: blur(14px)!important; }
+.btn-white{ background: #fff!important; color: #000!important; transition: 0.3s!important; }
+.btn-white:hover{ background: #e5e5e5!important; }
+.card{ background: #0a0a0a!important; border: 1px solid #222!important; transition: all 0.3s!important; }
+.card:hover{ border: 1px solid #fff!important; box-shadow: 0 0 10px 7px rgba(255,255,255,0.2)!important; transform: translateY(-5px)!important; }
+#mobileMenu{ position: fixed; top: 0; right: -300px; width: 280px; height: 100%; background: #0a0a0a; border-left: 1px solid #222; z-index: 999; transition: right 0.3s ease; padding-top: 80px; }
+#mobileMenu.active{ right: 0; }
+#menuOverlay{ display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); z-index: 998; }
+#cartDropdown{ display: none; position: absolute; top: 60px; right: 20px; width: 320px; background: #111; border: 1px solid #333; z-index: 1000; max-height: 400px; overflow-y: auto;}
+#cartDropdown.active{ display: block; }
+
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR - SAME AS SHOP -->
+
+<header class="glass border-b border-neutral-900 sticky top-0 z-50 relative">
+
+  <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+
+    <h1 class="text-2xl font-bold tracking-[0.3em]">MONO<span class="text-neutral-500">MART'S</span><span class="text-xs text-neutral-600">.pk</span></h1>
+    <nav class="hidden md:flex gap-10 text-sm tracking-wider absolute left-1/2 -translate-x-1/2">
+      <a href="index.html" class="hover:text-neutral-400">HOME</a>
+      <a href="shop.html" class="hover:text-neutral-400">SHOP</a>
+      <a href="our-story.html" class="hover:text-white">OUR-STORY</a>
+      <a href="track-order.html" class="hover:text-neutral-400">TRACK-ORDER</a>
+      <a href="contact.html" class="hover:text-neutral-400">CONTACT</a>
+    </nav>
+
+    <div class="flex items-center gap-4 ml-auto relative">
+      <button id="menuBtn" class="md:hidden text-2xl z-[1000]"><i class="fa-solid fa-bars"></i></button>
+    </div>
+
+  </div>
+
+</header>
+
+<div id="menuOverlay"></div>
+
+<div id="mobileMenu" class="md:hidden">
+  <button id="closeMenu" class="absolute top-5 right-6 text-3xl"><i class="fa-solid fa-xmark"></i></button>
+  <a href="index.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">HOME</a>
+  <a href="shop.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">SHOP</a>
+  <a href="our-story.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">OUR-STORY</a>
+  <a href="track-order.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">TRACK-ORDER</a>
+  <a href="contact.html" class="block px-6 py-4 text-sm border-b border-neutral-900 hover:bg-neutral-900">CONTACT</a>
+</div>
+
+<!-- HERO SECTION -->
+
+<section class="py-20 text-center relative">
+
+  <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+  <div class="container mx-auto px-6 relative">
+    <h2 class="text-5xl md:text-7xl font-bold tracking-widest mb-4">OUR STORY</h2>
+    <p class="text-neutral-400 text-lg tracking-wide">Curated for Your Everyday</p>
+  </div>
+
+</section>
+
+<!-- STORY SECTION -->
+
+<section class="py-20">
+
+  <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+
+    <div>
+      <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=800" class="w-full h-[500px] object-cover border-neutral-800" alt="Our Story">
+    </div>
+
+    <div>
+      <h3 class="text-3xl font-bold tracking-widest mb-6">HOW IT ALL STARTED</h3>
+      <p class="text-neutral-400 mb-4 leading-relaxed">
+        MONO-MART'S.pk was born in 2024 with one simple idea:
+        <span class="text-white">Premium products should be accessible to everyone in Pakistan.</span>
+      </p>
+      <p class="text-neutral-400 mb-4 leading-relaxed">
+        We were tired of seeing people compromise on quality. Either pay too much for brands,
+        or settle for low quality. So we decided to change that.
+      </p>
+      <p class="text-neutral-400 leading-relaxed">
+        Today we serve 10,000+ happy customers across Pakistan with curated fashion, tech and home products.
+        Every item is handpicked for quality, style and value.
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- MISSION VISION -->
+
+<section class="py-20 bg-[#050505] border-y border-neutral-900">
+
+  <div class="container mx-auto px-6">
+
+    <h3 class="text-4xl font-bold text-center tracking-widest mb-12">OUR MISSION</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="card p-8 text-center">
+        <i class="fa-solid fa-gem text-4xl mb-4"></i>
+        <h4 class="font-bold text-xl mb-3 tracking-widest">QUALITY</h4>
+        <p class="text-neutral-400 text-sm">We never compromise on quality. Every product goes through strict checks.</p>
+      </div>
+
+      <div class="card p-8 text-center">
+        <i class="fa-solid fa-truck-fast text-4xl mb-4"></i>
+        <h4 class="font-bold text-xl mb-3 tracking-widest">FAST DELIVERY</h4>
+        <p class="text-neutral-400 text-sm">Delivering across Pakistan in 2-3 working days. COD available.</p>
+      </div>
+
+      <div class="card p-8 text-center">
+        <i class="fa-solid fa-heart text-4xl mb-4"></i>
+        <h4 class="font-bold text-xl mb-3 tracking-widest">CUSTOMER FIRST</h4>
+        <p class="text-neutral-400 text-sm">Your satisfaction is our priority. 7-day easy return policy.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- TEAM SECTION -->
+
+<section class="py-20">
+
+  <div class="container mx-auto px-6">
+
+    <h3 class="text-4xl font-bold text-center tracking-widest mb-12">MEET THE TEAM</h3>
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <div class="card p-6 text-center">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border border-neutral-700" alt="">
+        <h4 class="font-bold text-xl">AHMED KHAN</h4>
+        <p class="text-neutral-500 text-sm">FOUNDER & CEO</p>
+      </div>
+
+      <div class="card p-6 text-center">
+        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-neutral-700" alt="">
+        <h4 class="font-bold text-xl">FATIMA ALI</h4>
+        <p class="text-neutral-500 text-sm">HEAD OF OPERATIONS</p>
+      </div>
+
+      <div class="card p-6 text-center">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-neutral-700" alt="">
+        <h4 class="font-bold text-xl">USMAN RAZA</h4>
+        <p class="text-neutral-500 text-sm">PRODUCT MANAGER</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- CTA SECTION -->
+
+<section class="py-20 bg-[#050505] border-t border-neutral-900 text-center">
+
+  <div class="container mx-auto px-6">
+    <h3 class="text-4xl font-bold tracking-widest mb-4">JOIN THE MONO FAMILY</h3>
+    <p class="text-neutral-400 mb-8">Be part of 10,000+ customers who trust us</p>
+    <a href="shop.html" class="btn-white px-10 py-4 text-lg font-bold">SHOP NOW</a>
+  </div>
+
+</section>
+
+<!-- FOOTER - SAME AS SHOP -->
+
+<footer class="border-t border-neutral-900 py-12">
+
+  <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+
+    <div class="flex flex-col items-center md:items-start">
+      <h4 class="text-xl font-bold tracking-widest mb-4">MONO-MART'S<span class="text-neutral-500">.pk</span></h4>
+      <p class="text-neutral-500 text-sm">Curated for Your Everyday. Premium products, Fast delivery across Pakistan.</p>
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+
+      <h4 class="font-bold tracking-widest mb-4">QUICK LINKS</h4>
+      <ul class="space-y-2 text-sm text-neutral-400">
+        <li><a href="index.html" class="hover:text-white">HOME</a></li>
+        <li><a href="shop.html" class="hover:text-white">SHOP</a></li>
+        <li><a href="our-story.html" class="hover:text-white">OUR-STORY</a></li>
+        <li><a href="track-order.html" class="hover:text-white">TRACK-ORDER</a></li>
+        <li><a href="contact.html" class="hover:text-white">CONTACT</a></li>
+      </ul>
+
+    </div>
+
+    <div class="flex flex-col items-center md:items-start">
+
+      <h4 class="font-bold tracking-widest mb-4">FOLLOW US</h4>
+
+      <div class="flex gap-4 text-xl justify-center">
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="https://wa.me/923162819626"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
+    </div>
+
+  </div>
+    <p class="text-center text-neutral-600 text-xs mt-10 tracking-widest">© 2026 MONO-MART'S.PK. ALL RIGHTS RESERVED.</p>
+
+</footer>
+
+<script>
+
+// MOBILE MENU JS
+
+const menu = document.getElementById('mobileMenu');
+const overlay = document.getElementById('menuOverlay');
+document.getElementById('menuBtn').addEventListener('click', () => {
+  menu.classList.add('active');
+  overlay.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+})
+function closeMobileMenu(){
+  menu.classList.remove('active');
+  overlay.style.display = 'none';
+  document.body.style.overflow = 'auto';
+}
+document.getElementById('closeMenu').addEventListener('click', closeMobileMenu);
+overlay.addEventListener('click', closeMobileMenu);
+
+</script>
+
+</body>
+</html>
